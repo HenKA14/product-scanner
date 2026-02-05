@@ -7,11 +7,10 @@
 
 Aplicación web mobile-first para buscar productos por código de barras utilizando la API de OpenFoodFacts. Muestra información detallada del producto con precio simulado y mantiene un historial de búsquedas persistente.
 
-## 🚀 Demo en Vivo
+## 🚀 Demo
 
-> **Nota:** Desplegar en Vercel con un solo click:
-> 
-> [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tu-usuario/product-scanner)
+- **Repositorio:** [github.com/HenKA14/product-scanner](https://github.com/HenKA14/product-scanner)
+- **Deploy:** [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/HenKA14/product-scanner)
 
 ## ✨ Características Principales
 
