@@ -402,22 +402,24 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más información.
 
 ## 👨‍💻 Autor
 
-**Product Scanner Team**
+**Henrique Carhuapoma Capillo**
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu Nombre](https://linkedin.com/in/tu-perfil)
+- 🔗 GitHub: [@HenKA14](https://github.com/HenKA14)
+- 💼 LinkedIn: [Henrique Carhuapoma](https://www.linkedin.com/in/henriqueccc)
+- 📧 Full Stack Developer
 
 ## 🙏 Agradecimientos
 
 - [OpenFoodFacts](https://world.openfoodfacts.org/) por la API gratuita
 - [Next.js](https://nextjs.org/) por el framework
 - [Tailwind CSS](https://tailwindcss.com/) por el sistema de diseño
-- [Vercel](https://vercel.com/) por el hosting
+- [html5-qrcode](https://github.com/mebjas/html5-qrcode) por la librería de escaneo
+- [Netlify](https://www.netlify.com/) por el hosting
 
 ---
 
 ⭐ Si te gustó este proyecto, considera darle una estrella en GitHub
 
-**¿Encontraste un bug?** [Reporta un issue](https://github.com/tu-usuario/product-scanner/issues)
+**¿Encontraste un bug?** [Reporta un issue](https://github.com/HenKA14/product-scanner/issues)
 
-**¿Tienes preguntas?** [Inicia una discusión](https://github.com/tu-usuario/product-scanner/discussions)
+**¿Tienes preguntas?** [Inicia una discusión](https://github.com/HenKA14/product-scanner/discussions)
