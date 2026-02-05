@@ -365,26 +365,6 @@ CMD ["npm", "start"]
 - Valores por defecto para campos vacíos
 - Manejo robusto de errores
 
-## 🔮 Mejoras Futuras (Roadmap)
-
-### Alta Prioridad
-- [ ] Scanner de cámara con html5-qrcode
-- [ ] Dark mode toggle
-- [ ] PWA (Progressive Web App)
-- [ ] Filtros en historial
-
-### Media Prioridad
-- [ ] React Query para cache
-- [ ] Zustand para estado global
-- [ ] Tests con Vitest + RTL
-- [ ] i18n (internacionalización)
-
-### Baja Prioridad
-- [ ] Animaciones con Framer Motion
-- [ ] Exportar historial a CSV
-- [ ] Compartir producto por URL
-- [ ] Comparador de productos
-
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
