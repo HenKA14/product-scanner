@@ -5,10 +5,11 @@ import { isValidBarcode } from '@/src/lib/utils';
 
 interface BarcodeInputProps {
   onSearch: (barcode: string) => void;
+  onOpenScanner?: () => void;
   isLoading?: boolean;
 }
 
-export default function BarcodeInput({ onSearch, isLoading = false }: BarcodeInputProps) {
+export default function BarcodeInput({ onSearch, onOpenScanner, isLoading = false }: BarcodeInputProps) {
   const [barcode, setBarcode] = useState('');
   const [error, setError] = useState('');
 
@@ -88,7 +89,7 @@ export default function BarcodeInput({ onSearch, isLoading = false }: BarcodeInp
             maxLength={13}
             disabled={isLoading}
             className={`
-              w-full pl-12 pr-4 py-3 text-lg
+              w-full pl-12 pr-20 py-3 text-lg
               border-2 rounded-lg
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
               transition-all duration-200
@@ -100,9 +101,39 @@ export default function BarcodeInput({ onSearch, isLoading = false }: BarcodeInp
             `}
           />
 
+          {/* Botón de cámara dentro del input */}
+          {onOpenScanner && !isLoading && (
+            <button
+              type="button"
+              onClick={onOpenScanner}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-blue-600 transition-colors"
+              aria-label="Abrir escáner de cámara"
+            >
+              <svg 
+                className="h-6 w-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" 
+                />
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" 
+                />
+              </svg>
+            </button>
+          )}
+
           {/* Indicador de validez */}
-          {barcode && !error && isValid && (
-            <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+          {barcode && !error && isValid && !isLoading && (
+            <div className="absolute inset-y-0 right-12 pr-4 flex items-center pointer-events-none">
               <svg 
                 className="h-5 w-5 text-green-500" 
                 fill="currentColor" 

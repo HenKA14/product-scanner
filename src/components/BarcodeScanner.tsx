@@ -93,96 +93,106 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
 
   return (
     <div className="fixed inset-0 z-50 bg-black">
-      {/* Header minimalista */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 bg-gradient-to-b from-black/80 to-transparent">
-        <div className="flex items-center justify-between">
+      {/* Header simple estilo Saga Falabella */}
+      <div className="absolute top-0 left-0 right-0 z-20 safe-area-top">
+        <div className="flex items-center justify-between p-4">
+          {/* Botón atrás */}
           <button
             onClick={handleClose}
-            className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 text-white active:opacity-70 transition-opacity"
+            aria-label="Cerrar escáner"
           >
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
-          <h2 className="text-white font-semibold text-lg">Escanear Código</h2>
+          <div className="flex items-center space-x-4">
+            {/* Botón flash */}
+            <button
+              onClick={toggleFlash}
+              className={`p-2 transition-opacity active:opacity-70 ${flashEnabled ? 'text-yellow-400' : 'text-white'}`}
+              aria-label={flashEnabled ? 'Desactivar flash' : 'Activar flash'}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2.5} 
+                  d={flashEnabled ? "M6 18L18 6M6 6l12 12" : "M13 10V3L4 14h7v7l9-11h-7z"} 
+                />
+              </svg>
+            </button>
 
-          <button
-            onClick={toggleFlash}
-            className={`p-2 rounded-full transition-colors ${flashEnabled ? 'bg-yellow-500 text-black' : 'text-white hover:bg-white/10'}`}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </button>
+            {/* Botón ayuda */}
+            <button
+              className="p-2 text-white active:opacity-70 transition-opacity"
+              aria-label="Ayuda"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2.5} 
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Área de escaneo - Pantalla completa */}
-      <div className="relative w-full h-full flex items-center justify-center">
+      {/* Área de escaneo - Pantalla completa con cámara */}
+      <div className="relative w-full h-full">
         <div 
           id="barcode-reader" 
           className="absolute inset-0 w-full h-full"
         ></div>
 
         {/* Overlay con marco de enfoque */}
-        <div className="absolute inset-0 z-10 pointer-events-none">
-          {/* Fondo semitransparente */}
-          <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center px-6">
+          {/* Título centrado */}
+          <h2 className="text-white text-2xl font-semibold mb-12 text-center">
+            Escanea el código de barras
+          </h2>
 
-          {/* Marco central transparente */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-80 h-52">
-              {/* Recorte transparente */}
-              <div className="absolute inset-0 border-2 border-white/80 rounded-2xl shadow-2xl">
-                {/* Esquinas decorativas - Superior izquierda */}
-                <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-blue-500 rounded-tl-2xl"></div>
-                {/* Esquina superior derecha */}
-                <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-blue-500 rounded-tr-2xl"></div>
-                {/* Esquina inferior izquierda */}
-                <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-blue-500 rounded-bl-2xl"></div>
-                {/* Esquina inferior derecha */}
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-blue-500 rounded-br-2xl"></div>
-
-                {/* Línea de escaneo animada */}
-                {isScanning && (
-                  <div className="absolute inset-x-0 top-1/2 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
-                )}
-              </div>
+          {/* Marco de escaneo - más grande */}
+          <div className="relative w-full max-w-md aspect-[4/3]">
+            {/* Fondo semitransparente alrededor */}
+            <div className="absolute inset-0 -m-[9999px] bg-black/60"></div>
+            
+            {/* Marco con esquinas */}
+            <div className="relative w-full h-full rounded-3xl overflow-hidden">
+              {/* Esquinas blancas gruesas - Superior izquierda */}
+              <div className="absolute top-0 left-0 w-12 h-12 border-t-[5px] border-l-[5px] border-white rounded-tl-3xl"></div>
+              {/* Superior derecha */}
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-[5px] border-r-[5px] border-white rounded-tr-3xl"></div>
+              {/* Inferior izquierda */}
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-[5px] border-l-[5px] border-white rounded-bl-3xl"></div>
+              {/* Inferior derecha */}
+              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-[5px] border-r-[5px] border-white rounded-br-3xl"></div>
             </div>
           </div>
+
+          {/* Mensaje de estado (solo si hay error) */}
+          {error && (
+            <div className="mt-8">
+              <div className="bg-red-500/20 backdrop-blur-sm px-6 py-3 rounded-full">
+                <span className="text-red-400 font-medium text-sm">{error}</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Instrucciones en la parte inferior */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 p-8 bg-gradient-to-t from-black/90 to-transparent">
-        {isScanning ? (
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center space-x-3 bg-blue-500/20 backdrop-blur-sm px-6 py-3 rounded-full mb-4">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              <span className="text-white font-medium">Buscando código de barras...</span>
-            </div>
-            <p className="text-white/80 text-sm">
-              Coloca el código dentro del marco
-            </p>
-            <p className="text-white/60 text-xs mt-2">
-              Asegúrate de tener buena iluminación
-            </p>
-          </div>
-        ) : error ? (
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center space-x-2 bg-red-500/20 backdrop-blur-sm px-6 py-3 rounded-full">
-              <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-              <span className="text-red-400 font-medium text-sm">{error}</span>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center">
-            <span className="text-white/60 text-sm">Iniciando cámara...</span>
-          </div>
-        )}
+      {/* Botón inferior para ingresar manualmente */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 p-8 safe-area-bottom">
+        <button
+          onClick={handleClose}
+          className="w-full py-4 px-8 border-2 border-white/80 text-white rounded-full font-medium text-base active:bg-white/10 transition-colors"
+        >
+          Ingresar código manualmente
+        </button>
       </div>
     </div>
   );
