@@ -39,9 +39,10 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
       await scanner.start(
         { facingMode: 'environment' }, // Cámara trasera
         {
-          fps: 10,
-          qrbox: { width: 280, height: 140 },
+          fps: 30, // Aumentado a 30 fps para detección más rápida
+          qrbox: { width: 350, height: 180 }, // Área más grande
           aspectRatio: 1.777778,
+          disableFlip: false,
         },
         (decodedText) => {
           console.log('📸 Código escaneado:', decodedText);
@@ -149,38 +150,54 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
         <div 
           id="barcode-reader" 
           className="absolute inset-0 w-full h-full"
+          style={{ 
+            filter: 'brightness(1.1) contrast(1.1)',
+            backgroundColor: '#000'
+          }}
         ></div>
 
-        {/* Overlay con marco de enfoque */}
-        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center px-6">
+        {/* Overlay minimalista - SOLO las esquinas, sin fondo opaco */}
+        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center px-4">
           {/* Título centrado */}
-          <h2 className="text-white text-2xl font-semibold mb-12 text-center">
+          <h2 className="text-white text-xl font-semibold mb-8 text-center bg-black/50 backdrop-blur-sm px-6 py-2 rounded-full">
             Escanea el código de barras
           </h2>
 
-          {/* Marco de escaneo - más grande */}
-          <div className="relative w-full max-w-md aspect-[4/3]">
-            {/* Fondo semitransparente alrededor */}
-            <div className="absolute inset-0 -m-[9999px] bg-black/60"></div>
-            
-            {/* Marco con esquinas */}
-            <div className="relative w-full h-full rounded-3xl overflow-hidden">
+          {/* Marco de escaneo - MÁS GRANDE y sin overlay opaco */}
+          <div className="relative w-full max-w-lg" style={{ aspectRatio: '16/10' }}>
+            {/* SOLO las esquinas, sin fondo opaco */}
+            <div className="absolute inset-0 rounded-2xl">
               {/* Esquinas blancas gruesas - Superior izquierda */}
-              <div className="absolute top-0 left-0 w-12 h-12 border-t-[5px] border-l-[5px] border-white rounded-tl-3xl"></div>
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-[6px] border-l-[6px] border-white rounded-tl-2xl shadow-lg"></div>
               {/* Superior derecha */}
-              <div className="absolute top-0 right-0 w-12 h-12 border-t-[5px] border-r-[5px] border-white rounded-tr-3xl"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 border-t-[6px] border-r-[6px] border-white rounded-tr-2xl shadow-lg"></div>
               {/* Inferior izquierda */}
-              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-[5px] border-l-[5px] border-white rounded-bl-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-[6px] border-l-[6px] border-white rounded-bl-2xl shadow-lg"></div>
               {/* Inferior derecha */}
-              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-[5px] border-r-[5px] border-white rounded-br-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-[6px] border-r-[6px] border-white rounded-br-2xl shadow-lg"></div>
+              
+              {/* Línea de escaneo horizontal animada */}
+              {isScanning && (
+                <div className="absolute inset-x-4 top-1/2 h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse shadow-lg shadow-green-400/50"></div>
+              )}
             </div>
           </div>
 
           {/* Mensaje de estado (solo si hay error) */}
           {error && (
             <div className="mt-8">
-              <div className="bg-red-500/20 backdrop-blur-sm px-6 py-3 rounded-full">
-                <span className="text-red-400 font-medium text-sm">{error}</span>
+              <div className="bg-red-500/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                <span className="text-white font-medium text-sm">{error}</span>
+              </div>
+            </div>
+          )}
+          
+          {/* Indicador de escaneo activo */}
+          {isScanning && !error && (
+            <div className="mt-6">
+              <div className="bg-green-500/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg flex items-center space-x-2">
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                <span className="text-white font-medium text-sm">Escaneando...</span>
               </div>
             </div>
           )}
