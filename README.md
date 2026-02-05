@@ -97,7 +97,7 @@ product-scanner/
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/product-scanner.git
+git clone https://github.com/HenKA14/product-scanner.git
 cd product-scanner
 ```
 
