@@ -19,11 +19,16 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
     if (isInitialized.current) return;
     isInitialized.current = true;
 
-    startScanner();
+    const initScanner = async () => {
+      await startScanner();
+    };
+
+    initScanner();
 
     return () => {
       stopScanner();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startScanner = async () => {
@@ -37,9 +42,6 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
           fps: 10,
           qrbox: { width: 280, height: 140 },
           aspectRatio: 1.777778,
-          formatsToSupport: [
-            8, 9, 12, 13, 14, 5, 6, 7, 11, 0
-          ],
         },
         (decodedText) => {
           console.log('📸 Código escaneado:', decodedText);
